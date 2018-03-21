@@ -1,4 +1,5 @@
 "use strict";
+console.log("INTERACTIONS ARE HERE!");
 
 let $ = require('jquery'),
     firebase = require("./fb-config"),
@@ -64,7 +65,7 @@ function addExercise(exerciseFormObj) {
 
 function deleteExercise(exerciseId) {
     return $.ajax({
-        url: `${firebase.getFBsettings().databaseURL}/results/${input}.json`,
+        // url: `${firebase.getFBsettings().databaseURL}/results/${input}.json`,
         method: "DELETE"
     }).done((data) => {
         return data;
@@ -74,7 +75,7 @@ function deleteExercise(exerciseId) {
 function getExercise(exerciseId) {
     console.log("here is the problem");
     return $.ajax({
-        url: `https://Capstone.firebaseio.com/results/${input}.json`
+        // url: `https://Capstone.firebaseio.com/results/${input}.json`
     }).done((exerciseData) => {
         return exerciseData;
     }).fail((error) => {
@@ -84,7 +85,7 @@ function getExercise(exerciseId) {
 
 function editExercise(exerciseFormObj,exerciseId) {
     return $.ajax({
-        url: `https://Capstone.firebaseio.com/results/${input}.json`,
+        // url: `https://Capstone.firebaseio.com/results/${input}.json`,
         type: 'PUT',
         data: JSON.stringify(exerciseFormObj)
     }).done((data) => {
