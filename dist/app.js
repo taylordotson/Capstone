@@ -1,6 +1,41 @@
 (function(){function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s}return e})()({1:[function(require,module,exports){
+"use strict";
 
-},{}],2:[function(require,module,exports){
+var $ = require('jquery');
+
+
+let url = 'https://wger.de/api/v2/exerciseinfo/?format=api' +
+    'apiKey=a8c9d131a47b1efe4c192699560764b6b11d4087';
+var workout;
+
+function getExercises() {
+    return $.ajax({
+        url: url
+    }).done((data) => {
+           console.log("hello from exercises");
+        workout = data.exercise;
+           console.log("hello ", workout);
+        return workout;
+    });
+}
+
+let exerciseName;
+var activity;
+
+function showExercise(activity) {
+    return $.ajax({
+        url: `https://wger.de/api/v2/exerciseinfo/?format=api`
+
+    }).done(function (data) {
+        console.log('this is all the data', data);
+        console.log("this is the name of Ex", data.results.name);
+        exerciseName = data.results.name;
+    });
+}
+
+module.exports = { getExercises, showExercise };
+
+},{"jquery":119}],2:[function(require,module,exports){
 "use strict";
 console.log("INTERACTIONS ARE HERE!");
 
@@ -127,7 +162,34 @@ module.exports = {
 
 let $ = require('jquery');
 
+function makeActivityList(songList) {
+    let $songsDisplay =
+        $(`<div class="uiContainer__song-list box col s12">
+    <ul class="song-list">
+    </ul>
+  </div>`);
+    $(".uiContainer--wrapper").html($songsDisplay);
+    for (let song in songList) {
+        let currentSong = songList[song],
+            songListItem = $("<li>", { class: "song-list__item" }),
+            title = $("<span/>", { class: "song-title" }).text(currentSong.title),
+            songListData = $("<ul/>", { class: "song-list__item--data" }),
+            songListEdit = $("<a>", { "data-edit-id": song, class: "edit-btn waves-effect waves-light btn", text: "edit" }),
+            songListDelete = $("<a>", { "data-delete-id": song, class: "delete-btn waves-effect waves-light btn", text: "delete" });
+        // Same as `<a id="${song}" class="delete-btn waves-effect waves-light btn">delete</a>`
 
+        songListData.append(
+            `<li>${currentSong.artist}</li>
+      <li>${currentSong.album}</li>
+      <li>${currentSong.year}</li>`);
+
+        $(".song-list").append(songListItem.append(title));
+        $(".song-list").append(songListItem.append(songListData).append(songListDelete).append(songListEdit));
+    }
+}
+
+
+module.exports = { makeActivityList };
 },{"jquery":119}],4:[function(require,module,exports){
 "use strict";
 let firebase = require("firebase/app"),
